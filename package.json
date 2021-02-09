@@ -174,8 +174,8 @@
 						},
 						{
 							"label" : "Shrug",
-							"stringSize" : 8,
-							"bulletStringArray" : ["¯\\_(ツ)_/¯"]
+							"stringSize" : 5,
+							"bulletStringArray" : ["abcde"]
 						},
 						{
 							"label" : "Fruit 3",

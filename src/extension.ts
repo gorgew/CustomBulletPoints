@@ -139,7 +139,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		}
 		bulletLength = bulletStr.length;
-		return bulletStr;
+		return bulletStr + " ";
 	}
 
 	const activateCommand = () => {
@@ -222,28 +222,39 @@ export function activate(context: vscode.ExtensionContext) {
 		if (isActive && editor && justTabbed) {
 			
 			const activePos = editor.selection.active;
-			const startPos = activePos.with(activePos.line, 0);
-			
+			let startPos:vscode.Position;
 			let endPos:vscode.Position;
 
 			let currentIndentLevel:number = getIndentLevel();
+			let indentSize:number = getIndentSize();
 
-			if (currentIndentLevel === 1) {
+			if (activePos.character <= (currentIndentLevel * indentSize + bulletLength + 1)) {
+				
+				startPos = activePos.with(activePos.line, 0);
+				
+				if (currentIndentLevel === 1) {
 
-				endPos = activePos.with(activePos.line, 1 + bulletLength);
-				deactivateCommand();
-			} else if (currentIndentLevel >= 0){
+					endPos = activePos.with(activePos.line, indentSize + bulletLength + 1);
+					deactivateCommand();
+				} else if (currentIndentLevel >= 0){
 
-				let indentSize:number = getIndentSize();
+					//If indenting with Tabs
+					if (indentSize === -1) {
+	
+						endPos = activePos.with(activePos.line, 1);
+					//Else indenting with spaces
+					} else {
+						endPos = activePos.with(activePos.line, indentSize);
+					}
 
-				if (indentSize === -1) {
-
-					endPos = activePos.with(activePos.line, 1);
 				} else {
-					endPos = activePos.with(activePos.line, indentSize);
-				}
-			} else {
-				deactivateCommand();
+					deactivateCommand();
+				}				
+			}
+			
+			else {
+				startPos = activePos.with(activePos.line, activePos.character - 1);
+				endPos = activePos.with(activePos.line, activePos.character);
 			}
 
 			editor.edit(edit => {

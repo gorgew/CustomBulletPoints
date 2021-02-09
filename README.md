@@ -14,7 +14,7 @@ For example if there is an image subfolder under your extension project workspac
 
 ## Requirements
 
-
+Only vscode >= 1.52.0 is supported.
 
 ## Extension Settings
 

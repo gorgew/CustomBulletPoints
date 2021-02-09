@@ -107,7 +107,7 @@ function activate(context) {
             }
         }
         bulletLength = bulletStr.length;
-        return bulletStr;
+        return bulletStr + " ";
     }
     const activateCommand = () => {
         vscode.commands.executeCommand("setContext", "customBulletPoints:active", true);
@@ -165,24 +165,33 @@ function activate(context) {
     function doOnBackspaceDown() {
         if (isActive && editor && justTabbed) {
             const activePos = editor.selection.active;
-            const startPos = activePos.with(activePos.line, 0);
+            let startPos;
             let endPos;
             let currentIndentLevel = getIndentLevel();
-            if (currentIndentLevel === 1) {
-                endPos = activePos.with(activePos.line, 1 + bulletLength);
-                deactivateCommand();
-            }
-            else if (currentIndentLevel >= 0) {
-                let indentSize = getIndentSize();
-                if (indentSize === -1) {
-                    endPos = activePos.with(activePos.line, 1);
+            let indentSize = getIndentSize();
+            if (activePos.character <= (currentIndentLevel * indentSize + bulletLength + 1)) {
+                startPos = activePos.with(activePos.line, 0);
+                if (currentIndentLevel === 1) {
+                    endPos = activePos.with(activePos.line, indentSize + bulletLength + 1);
+                    deactivateCommand();
+                }
+                else if (currentIndentLevel >= 0) {
+                    //If indenting with Tabs
+                    if (indentSize === -1) {
+                        endPos = activePos.with(activePos.line, 1);
+                        //Else indenting with spaces
+                    }
+                    else {
+                        endPos = activePos.with(activePos.line, indentSize);
+                    }
                 }
                 else {
-                    endPos = activePos.with(activePos.line, indentSize);
+                    deactivateCommand();
                 }
             }
             else {
-                deactivateCommand();
+                startPos = activePos.with(activePos.line, activePos.character - 1);
+                endPos = activePos.with(activePos.line, activePos.character);
             }
             editor.edit(edit => {
                 edit.delete(new vscode.Range(startPos, endPos));
