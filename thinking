@@ -1,0 +1,10 @@
+[
+    {
+        "name" : "Fast Food",
+        "bulletText" : ["asdf", "lorem ipsum]
+    },
+    {
+        "name" : "Zodiac",
+        "bulletText" : ["ted", "cruz"]
+    }
+]

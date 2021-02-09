@@ -1,0 +1,240 @@
+{
+	"name": "custombulletpoints",
+	"displayName": "customBulletPoints",
+	"description": "An extension that adds functioning bullet points to vscode. These bulletpoints can be customized.",
+	"version": "0.1.0",
+	"engines": {
+		"vscode": "^1.52.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "customBulletPoints.activate",
+				"title": "customBulletPoints: Activate"
+			},
+			{
+				"command": "customBulletPoints.deactivate",
+				"title": "customBulletPoints: Deactivate"
+			},
+			{
+				"command" : "customBulletPoints.chooseBulletPointSet",
+				"title": "customBulletPoints: Choose Bullet Point Set"
+			},
+			{
+				"command" : "customBulletPoints.reloadBulletPointSet",
+				"title": "customBulletPoints: Reload Bullet Point Sets and then Choose a new one"
+			}
+			
+		], 
+		"configuration": {
+			"title": "customBulletPoints",
+			"properties": {
+				"customBulletPoints.Ooga.boogaFred": {
+					"type":"string",
+					"description": "HELLO WORLD",
+					"default": "Jello"
+				},
+				"customBulletPoints.BulletPointMode": {
+					"type": "string",
+					"default":"cycle",
+					"enum": ["tier", "cycle", "random"],
+					"description": "Choose the method that the string used for bulletpoints are selected",
+					"enumDescriptions": [
+						"The bulletpoint string is the same at each indentation level.",
+						"The bulletpoint string cycles through the set.",
+						"The bulletpoint string is randomly selected from the set."
+					]
+				},
+				"customBulletPoints.BulletPointSets" : {
+					"type" : "array",
+					"description": "A set of \"Bullet List\" object.",
+					"default": [
+						{
+							"label" : "Fruit 1",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🍏", "🍎", "🍊", "🍐", "🍋"]
+						},
+						{
+							"label" : "Fruit 2",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🍓", "🍇", "🫐", "🍒"]
+						},
+						{
+							"label" : "Eyewear",
+							"stringSize" : 1,
+							"bulletStringArray" : ["👓", "🕶", "🥽"]
+						},
+						{
+							"label" : "Zodiac",
+							"stringSize" : 1,
+							"bulletStringArray" : ["♈️", "♉️", "♊️", "♋️", "♌️", 
+												   "♍️", "♎️", "♏️", "♐️", "♑️",
+												   "♒️", "♓️"]
+						},
+						{
+							"label" : "Monke",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🐵", "🙈", "🙉", "🙊", "🐒"]
+						},
+						{
+							"label" : "Cards",
+							"stringSize" : 1,
+							"bulletStringArray" : ["♠️", "♣️", "♥️", "♦️"]
+						},
+						{
+							"label" : "Borger",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🍔", "🍟", "🌭", "🍕", "🌮", "🌯"]
+						},
+						{
+							"label" : "Cookie",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🍪"]
+						},
+						{
+							"label" : "Crustaceans",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🐙", "🦑", "🦐", "🦞", "🦀"]
+						},
+						{
+							"label" : "Fish",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🐟", "🐠", "🐡", "🦈"]
+						},
+						{
+							"label" : "Cetaceans",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🐋", "🐳", "🐬"]
+						},
+						{
+							"label" : "Za Worudo",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🌎", "🌍", "🌏"]
+						},
+						{
+							"label" : "Flowers",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🌸", "🌼", "🌻", "🌺", "🥀", 
+												   "🌷", "🌹", "💐"]
+						},
+						{
+							"label" : "The Bag",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🧳", "💼", "👝", "👛", "👜"]
+						},
+						{
+							"label" : "Cat",
+							"stringSize" : 1,
+							"bulletStringArray" : ["😺", "😸", "😹", "😻", "😼", 
+												   "😽", "🙀", "😿", "😾"]
+						},
+						{
+							"label" : "Drip",
+							"stringSize" : 1,
+							"bulletStringArray" : ["💦"]
+						},
+						{
+							"label" : "Math",
+							"stringSize" : 1,
+							"bulletStringArray" : ["➕", "➖", "➗", "✖️"]
+						},
+						{
+							"label" : "Clock",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🕐", "🕑", "🕒", "🕓", "🕔", 
+												   "🕕", "🕖", "🕗", "🕘", "🕙", 
+												   "🕚", "🕛"]
+						},
+						{
+							"label" : "Mail",
+							"stringSize" : 1,
+							"bulletStringArray" : ["📪", "📫", "📬", "📭"]
+						},
+						{
+							"label" : "Disease",
+							"stringSize" : 1,
+							"bulletStringArray" : ["🤧", "🤮", "😷", "🤒", "🤢", 
+												   "🤕", "😵"]
+						},
+						{
+							"label" : "Family",
+							"stringSize" : 1,
+							"bulletStringArray" : ["👨‍👨‍👧‍👧", "👨‍👨‍👦‍👦", "👨‍👨‍👧‍👦", "👨‍👨‍👧", "👨‍👨‍👦",
+												   "👩‍👩‍👧‍👧", "👩‍👩‍👦‍👦", "👩‍👩‍👧‍👦", "👩‍👩‍👧", "👩‍👩‍👦",
+												   "👨‍👩‍👧‍👧", "👨‍👩‍👦‍👦", "👨‍👩‍👧‍👦", "👨‍👩‍👧", "👪",
+												   "👩‍👦", "👩‍👧", "👩‍👧‍👦", "👩‍👦‍👦", "👩‍👧‍👧",
+												   "👨‍👦", "👨‍👧", "👨‍👧‍👦", "👨‍👦‍👦", "👨‍👧‍👧"]
+						},
+						{
+							"label" : "Shrug",
+							"stringSize" : 8,
+							"bulletStringArray" : ["¯\\_(ツ)_/¯"]
+						},
+						{
+							"label" : "Fruit 3",
+							"stringSize" : 1,
+							"bulletStringArray" : []
+						}
+					]
+				}
+			}
+		},
+		"keybindings": [
+			{
+				"command": "customBulletPoints.activate",
+				"key": "alt+shift+i",
+				"mac": "cmd+shift+i",
+				"when": "editorLangId == plaintext && !customBulletPoints:active && editorTextFocus"
+			},
+			{
+				"command": "customBulletPoints.deactivate",
+				"key": "alt+shift+k",
+				"mac": "cmd+shift+k",
+				"when": "editorLangId == plaintext && customBulletPoints:active && editorTextFocus"
+			},
+			{
+				"command": "customBulletPoints.doOnTabDown",
+				"key": "tab",
+				"when": "editorLangId == plaintext && editorTextFocus && !editorReadOnly"
+			},
+			{
+				"command": "customBulletPoints.doOnEnterDown",
+				"key": "enter",
+				"when": "editorLangId == plaintext && customBulletPoints:active && editorTextFocus && !editorReadOnly"
+			},
+			{
+				"command": "customBulletPoints.doOnBackspaceDown",
+				"key": "backspace",
+				"when": "editorLangId == plaintext && customBulletPoints:active && editorTextFocus && !editorReadOnly"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.52.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.4",
+		"@types/node": "^12.11.7",
+		"eslint": "^7.15.0",
+		"@typescript-eslint/eslint-plugin": "^4.9.0",
+		"@typescript-eslint/parser": "^4.9.0",
+		"glob": "^7.1.6",
+		"mocha": "^8.1.3",
+		"typescript": "^4.1.2",
+		"vscode-test": "^1.4.1"
+	}
+}
