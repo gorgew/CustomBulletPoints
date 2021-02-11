@@ -47,9 +47,9 @@
 						"The bulletpoint string is randomly selected from the set."
 					]
 				},
-				"customBulletPoints.BulletPointSets" : {
+				"customBulletPoints.BulletPointCollections" : {
 					"type" : "array",
-					"description": "A set of \"Bullet List\" object.",
+					"description": "Collections of Bullet Points.",
 					"default": [
 						{
 							"label" : "Fruit 1",
