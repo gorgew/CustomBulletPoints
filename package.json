@@ -36,11 +36,6 @@
 		"configuration": {
 			"title": "customBulletPoints",
 			"properties": {
-				"customBulletPoints.Ooga.boogaFred": {
-					"type":"string",
-					"description": "HELLO WORLD",
-					"default": "Jello"
-				},
 				"customBulletPoints.BulletPointMode": {
 					"type": "string",
 					"default":"cycle",

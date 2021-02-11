@@ -18,7 +18,8 @@ Only vscode >= 1.52.0 is supported.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### Bullet Point Mode: The method in which bullets are chosen from a collection.
+* Tier Mode: Each indentation level receives a bullet from the collection. 
 
 ## Known Issues
 
@@ -32,7 +33,7 @@ Initial release of Custom Bullet Points.
 
 -----------------------------------------------------------------------------------------------------------
 ## TODO
-
+* Fix Tier Mode
 * Markdown integration
 * Vim extension integration
 * LaTex integration
