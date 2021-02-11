@@ -2,11 +2,15 @@
 
 # Custom Bullet Points README
 
+Have you ever wanted to take notes in a text editor with fun, personalized bullet points? If not, this is still for you!
+
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
+* Easy to use bulleting
+  * Start bulleting with `Tab` key in an active editor
+  * Additional presses of `Tab` indent the bullet
+  * Pressing `Enter` creates a bulleted newline
+  * Pressing `Backspace` makes the bullet go back one indentation level. Backspacing at one indent exits bulleting.
 
 \!\[feature X\]\(images/feature-x.png\)
 
@@ -29,12 +33,16 @@ Collections of Bullet Points. Individual collections can be customized with the 
     {
         "label": ,
         "stringSize": ,
-        "bulletStringArray"
+        "bulletStringArray: []"
     }
 ```
-Label: The name displayed when choosing a bullet point collection in the command palette.
+label: The name displayed when choosing a bullet point collection in the command palette.
+stringSize: The size of the bullets in characters.
+bulletStringArray: An array of Strings used as bullets. They should be the same size, though this is not enforced.
+
 ## Known Issues
 
+Problems with Tier Mode.
 Weird stuff might happen if you undo exiting active bulleting with backspace.
 
 ## Release Notes
@@ -46,6 +54,8 @@ Initial release of Custom Bullet Points.
 -----------------------------------------------------------------------------------------------------------
 ## TODO
 * Fix Tier Mode
+* Default bullet collection
+* Rembering active bullet collection?
 * Markdown integration
 * Vim extension integration
 * LaTex integration
