@@ -24,10 +24,13 @@ Only vscode >= 1.52.0 is supported.
 * Random Mode: The bullet is chosen randomly from the collection.
 
 #### Bullet Point Collections: 
-Collections of Bullet Points. Can be customized with the following JSON object format:
-    `{
-
-    }`
+Collections of Bullet Points. Individual collections can be customized with the following JSON object: format:
+    {
+        "label": ,
+        "stringSize": ,
+        "bulletStringArray"
+    }
+Label: The name displayed when choosing a bullet point collection in the command palette.
 ## Known Issues
 
 Weird stuff might happen if you undo exiting active bulleting with backspace.
