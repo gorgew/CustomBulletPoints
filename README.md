@@ -25,11 +25,13 @@ Only vscode >= 1.52.0 is supported.
 
 #### Bullet Point Collections: 
 Collections of Bullet Points. Individual collections can be customized with the following JSON object: format:
+```
     {
         "label": ,
         "stringSize": ,
         "bulletStringArray"
     }
+```
 Label: The name displayed when choosing a bullet point collection in the command palette.
 ## Known Issues
 
