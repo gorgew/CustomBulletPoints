@@ -24,11 +24,11 @@
 				"title": "customBulletPoints: Deactivate"
 			},
 			{
-				"command" : "customBulletPoints.chooseBulletPointSet",
+				"command" : "customBulletPoints.chooseBulletPointCollections",
 				"title": "customBulletPoints: Choose Bullet Point Set"
 			},
 			{
-				"command" : "customBulletPoints.reloadBulletPointSet",
+				"command" : "customBulletPoints.reloadBulletPointCollections",
 				"title": "customBulletPoints: Reload Bullet Point Sets and then Choose a new one"
 			}
 			
@@ -47,9 +47,9 @@
 						"The bulletpoint string is randomly selected from the set."
 					]
 				},
-				"customBulletPoints.BulletPointCollections" : {
+				"customBulletPoints.BulletPointCollectionss" : {
 					"type" : "array",
-					"description": "Collections of Bullet Points.",
+					"description": "A set of \"Bullet List\" object.",
 					"default": [
 						{
 							"label" : "Fruit 1",
@@ -157,20 +157,6 @@
 							"stringSize" : 1,
 							"bulletStringArray" : ["🤧", "🤮", "😷", "🤒", "🤢", 
 												   "🤕", "😵"]
-						},
-						{
-							"label" : "Family",
-							"stringSize" : 1,
-							"bulletStringArray" : ["👨‍👨‍👧‍👧", "👨‍👨‍👦‍👦", "👨‍👨‍👧‍👦", "👨‍👨‍👧", "👨‍👨‍👦",
-												   "👩‍👩‍👧‍👧", "👩‍👩‍👦‍👦", "👩‍👩‍👧‍👦", "👩‍👩‍👧", "👩‍👩‍👦",
-												   "👨‍👩‍👧‍👧", "👨‍👩‍👦‍👦", "👨‍👩‍👧‍👦", "👨‍👩‍👧", "👪",
-												   "👩‍👦", "👩‍👧", "👩‍👧‍👦", "👩‍👦‍👦", "👩‍👧‍👧",
-												   "👨‍👦", "👨‍👧", "👨‍👧‍👦", "👨‍👦‍👦", "👨‍👧‍👧"]
-						},
-						{
-							"label" : "Shrug",
-							"stringSize" : 5,
-							"bulletStringArray" : ["abcde"]
 						},
 						{
 							"label" : "Fruit 3",

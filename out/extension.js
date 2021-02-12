@@ -12,37 +12,37 @@ let currentIndentMode;
 let isActive = true;
 let bulletString = '\u2022';
 let bulletLength = 1;
-let bulletLists;
-let activeBulletList;
+let bulletCollections;
+let activeBulletCollection;
 let justTabbed = false;
 let cycleIndex = 0;
 function activate(context) {
     var _a;
     currentIndentMode = (_a = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointMode")) !== null && _a !== void 0 ? _a : IndentMode.random;
-    reloadBulletLists();
-    activeBulletList = bulletLists[0].bulletStringArray;
+    reloadBulletCollections();
+    activeBulletCollection = bulletCollections[0].bulletStringArray;
     const editor = vscode.window.activeTextEditor;
-    function reloadBulletLists() {
+    function reloadBulletCollections() {
         var _a;
-        bulletLists = (_a = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointSets")) !== null && _a !== void 0 ? _a : [{ label: "a", stringSize: 1, bulletStringArray: [""], detail: "" }];
-        bulletLists = bulletLists.map(bulletList => {
+        bulletCollections = (_a = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointCollectionss")) !== null && _a !== void 0 ? _a : [{ label: "a", stringSize: 1, bulletStringArray: [""], detail: "" }];
+        bulletCollections = bulletCollections.map(bulletCollection => {
             return {
-                label: bulletList.label,
-                stringSize: bulletList.stringSize,
-                bulletStringArray: bulletList.bulletStringArray,
-                detail: bulletList.bulletStringArray.join(' ')
+                label: bulletCollection.label,
+                stringSize: bulletCollection.stringSize,
+                bulletStringArray: bulletCollection.bulletStringArray,
+                detail: bulletCollection.bulletStringArray.join(' ')
             };
         });
     }
-    function reloadBulletListsQP() {
-        reloadBulletLists();
+    function reloadBulletCollectionsQP() {
+        reloadBulletCollections();
         bulletQuickPick();
     }
     function bulletQuickPick() {
-        vscode.window.showQuickPick(bulletLists).then(bulletList => {
+        vscode.window.showQuickPick(bulletCollections).then(bulletCollection => {
             var _a, _b;
-            activeBulletList = (_a = bulletList === null || bulletList === void 0 ? void 0 : bulletList.bulletStringArray) !== null && _a !== void 0 ? _a : [];
-            bulletLength = (_b = bulletList === null || bulletList === void 0 ? void 0 : bulletList.stringSize) !== null && _b !== void 0 ? _b : 1;
+            activeBulletCollection = (_a = bulletCollection === null || bulletCollection === void 0 ? void 0 : bulletCollection.bulletStringArray) !== null && _a !== void 0 ? _a : [];
+            bulletLength = (_b = bulletCollection === null || bulletCollection === void 0 ? void 0 : bulletCollection.stringSize) !== null && _b !== void 0 ? _b : 1;
         });
     }
     //Returns -1 if using tabs, >= 1 when using spaces
@@ -95,15 +95,15 @@ function activate(context) {
         if (editor) {
             const activePos = editor.selection.active;
             if (currentIndentMode === IndentMode.random) {
-                const randomIndex = Math.floor(Math.random() * activeBulletList.length);
-                bulletStr = activeBulletList[randomIndex];
+                const randomIndex = Math.floor(Math.random() * activeBulletCollection.length);
+                bulletStr = activeBulletCollection[randomIndex];
             }
             else if (currentIndentMode === IndentMode.cycle) {
-                bulletStr = activeBulletList[cycleIndex % activeBulletList.length];
+                bulletStr = activeBulletCollection[cycleIndex % activeBulletCollection.length];
                 cycleIndex++;
             }
             else if (currentIndentMode === IndentMode.tier) {
-                bulletStr = activeBulletList[(getIndentLevel() % activeBulletList.length) - 1];
+                bulletStr = activeBulletCollection[(getIndentLevel() % activeBulletCollection.length) - 1];
             }
         }
         bulletLength = bulletStr.length;
@@ -205,7 +205,7 @@ function activate(context) {
         }
     }
     vscode.commands.executeCommand("setContext", "customBulletPoints:active", true);
-    context.subscriptions.push(vscode.commands.registerCommand('customBulletPoints.activate', activateCommand), vscode.commands.registerCommand('customBulletPoints.deactivate', deactivateCommand), vscode.commands.registerCommand('customBulletPoints.chooseBulletPointSet', bulletQuickPick), vscode.commands.registerCommand('customBulletPoints.reloadBulletPointSet', reloadBulletListsQP), vscode.commands.registerCommand('customBulletPoints.doOnTabDown', doOnTabDown), vscode.commands.registerCommand('customBulletPoints.doOnEnterDown', doOnEnterDown), vscode.commands.registerCommand('customBulletPoints.doOnBackspaceDown', doOnBackspaceDown));
+    context.subscriptions.push(vscode.commands.registerCommand('customBulletPoints.activate', activateCommand), vscode.commands.registerCommand('customBulletPoints.deactivate', deactivateCommand), vscode.commands.registerCommand('customBulletPoints.chooseBulletPointCollections', bulletQuickPick), vscode.commands.registerCommand('customBulletPoints.reloadBulletPointCollections', reloadBulletCollectionsQP), vscode.commands.registerCommand('customBulletPoints.doOnTabDown', doOnTabDown), vscode.commands.registerCommand('customBulletPoints.doOnEnterDown', doOnEnterDown), vscode.commands.registerCommand('customBulletPoints.doOnBackspaceDown', doOnBackspaceDown));
 }
 exports.activate = activate;
 // this method is called when your extension is deactivated

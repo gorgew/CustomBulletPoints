@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import { debug } from 'console';
 import * as vscode from 'vscode';
-import { BulletList } from './bulletList';
+import { BulletCollection } from './bulletCollection';
 
 enum IndentMode {
 	random = 'random',
@@ -16,8 +16,8 @@ let isActive:boolean = true;
 
 let bulletString:string = '\u2022';
 let bulletLength:number = 1;
-let bulletLists:BulletList[];
-let activeBulletList:string[];
+let bulletCollections:BulletCollection[];
+let activeBulletCollection:string[];
 
 
 let justTabbed:boolean = false;
@@ -27,33 +27,33 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	currentIndentMode = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointMode") ?? IndentMode.random;
 
-	reloadBulletLists();
-	activeBulletList = bulletLists[0].bulletStringArray;
+	reloadBulletCollections();
+	activeBulletCollection = bulletCollections[0].bulletStringArray;
 
 	const editor = vscode.window.activeTextEditor;
 	
-	function reloadBulletLists() {
-		bulletLists = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointSets")  
+	function reloadBulletCollections() {
+		bulletCollections = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointCollectionss")  
 					  ?? [{label : "a", stringSize: 1, bulletStringArray : [""], detail : ""}];
-		bulletLists = bulletLists.map(bulletList => {
+		bulletCollections = bulletCollections.map(bulletCollection => {
 			return {
-				label: bulletList.label,
-				stringSize: bulletList.stringSize,
-				bulletStringArray: bulletList.bulletStringArray,
-				detail: bulletList.bulletStringArray.join(' ')
+				label: bulletCollection.label,
+				stringSize: bulletCollection.stringSize,
+				bulletStringArray: bulletCollection.bulletStringArray,
+				detail: bulletCollection.bulletStringArray.join(' ')
 			};
 		});
 	}
 
-	function reloadBulletListsQP() {
-		reloadBulletLists();
+	function reloadBulletCollectionsQP() {
+		reloadBulletCollections();
 		bulletQuickPick();
 	}
 
 	function bulletQuickPick() {
-		vscode.window.showQuickPick(bulletLists).then(bulletList => {
-			activeBulletList = bulletList?.bulletStringArray ?? [];
-			bulletLength = bulletList?.stringSize ?? 1;
+		vscode.window.showQuickPick(bulletCollections).then(bulletCollection => {
+			activeBulletCollection = bulletCollection?.bulletStringArray ?? [];
+			bulletLength = bulletCollection?.stringSize ?? 1;
 		});
 	}
 
@@ -124,17 +124,17 @@ export function activate(context: vscode.ExtensionContext) {
 
 			if (currentIndentMode === IndentMode.random) {
 				
-				const randomIndex = Math.floor(Math.random() * activeBulletList.length);
-				bulletStr = activeBulletList[randomIndex];
+				const randomIndex = Math.floor(Math.random() * activeBulletCollection.length);
+				bulletStr = activeBulletCollection[randomIndex];
 
 			} else if (currentIndentMode === IndentMode.cycle) {
 
-				bulletStr = activeBulletList[cycleIndex % activeBulletList.length];
+				bulletStr = activeBulletCollection[cycleIndex % activeBulletCollection.length];
 				cycleIndex++;
 
 			} else if (currentIndentMode === IndentMode.tier) {
 
-				bulletStr = activeBulletList[(getIndentLevel() % activeBulletList.length) - 1];
+				bulletStr = activeBulletCollection[(getIndentLevel() % activeBulletCollection.length) - 1];
 			}
 
 		}
@@ -275,8 +275,8 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	context.subscriptions.push(vscode.commands.registerCommand('customBulletPoints.activate', activateCommand),
 							   vscode.commands.registerCommand('customBulletPoints.deactivate', deactivateCommand),
-	                           vscode.commands.registerCommand('customBulletPoints.chooseBulletPointSet', bulletQuickPick),
-	 						   vscode.commands.registerCommand('customBulletPoints.reloadBulletPointSet', reloadBulletListsQP),
+	                           vscode.commands.registerCommand('customBulletPoints.chooseBulletPointCollections', bulletQuickPick),
+	 						   vscode.commands.registerCommand('customBulletPoints.reloadBulletPointCollections', reloadBulletCollectionsQP),
 							   vscode.commands.registerCommand('customBulletPoints.doOnTabDown', doOnTabDown),
 							   vscode.commands.registerCommand('customBulletPoints.doOnEnterDown', doOnEnterDown),
 							   vscode.commands.registerCommand('customBulletPoints.doOnBackspaceDown', doOnBackspaceDown));

@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-export interface BulletList extends vscode.QuickPickItem{
+export interface BulletCollection extends vscode.QuickPickItem{
 
     label:string;
     stringSize:number;
