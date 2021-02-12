@@ -103,11 +103,16 @@ function activate(context) {
                 cycleIndex++;
             }
             else if (currentIndentMode === IndentMode.tier) {
-                bulletStr = activeBulletCollection[(getIndentLevel() % activeBulletCollection.length) - 1];
+                bulletStr = tierNextBulletStr(getIndentLevel());
             }
         }
         bulletLength = bulletStr.length;
-        return bulletStr + " ";
+        return bulletStr;
+    }
+    function tierNextBulletStr(indentLevel) {
+        let bulletStr = "";
+        bulletStr = activeBulletCollection[(indentLevel % activeBulletCollection.length)];
+        return bulletStr;
     }
     const activateCommand = () => {
         vscode.commands.executeCommand("setContext", "customBulletPoints:active", true);
@@ -128,16 +133,32 @@ function activate(context) {
     function doOnTabDown() {
         if (isActive && editor) {
             const activePos = editor.selection.active;
+            let startPos;
+            let endPos;
+            let replaceStr = "";
             if (justTabbed) {
-                const indentPos = activePos.with(activePos.line, 0);
-                editor.edit(edit => {
-                    edit.insert(indentPos, getIndentString());
-                });
+                if (currentIndentMode === IndentMode.tier) {
+                    startPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()) + 1);
+                    endPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()) + 2);
+                    replaceStr = getIndentString() + nextBulletStr();
+                    editor.edit(edit => {
+                        edit.replace(new vscode.Range(startPos, endPos), replaceStr);
+                    }).then(success => {
+                        let endPos = editor.selection.end;
+                        editor.selection = new vscode.Selection(endPos, endPos);
+                    });
+                }
+                else {
+                    const indentPos = activePos.with(activePos.line, 0);
+                    editor.edit(edit => {
+                        edit.insert(indentPos, getIndentString());
+                    });
+                }
             }
             else {
-                const bulletPos = activePos.with(activePos.line + 1, activePos.character + 1);
+                startPos = activePos.with(activePos.line, activePos.character + 1);
                 editor.edit(edit => {
-                    edit.insert(bulletPos, getIndentString() + nextBulletStr());
+                    edit.insert(startPos, getIndentString() + nextBulletStr() + " ");
                 });
                 justTabbed = true;
             }
@@ -149,16 +170,22 @@ function activate(context) {
     }
     function doOnEnterDown() {
         if (isActive && editor && justTabbed) {
-            let newLineIndent = "";
+            let insertStr = "\n";
             let currentIndentLevel = getIndentLevel();
-            let currentIndentString = getIndentString();
+            let currentIndentStr = getIndentString();
             for (let i = 0; i < currentIndentLevel; i++) {
-                newLineIndent += currentIndentString;
+                insertStr += currentIndentStr;
             }
             const activePos = editor.selection.active;
             const bulletPos = activePos.with(activePos.line, activePos.character + 1);
+            if (currentIndentMode = IndentMode.tier) {
+                insertStr += tierNextBulletStr(currentIndentLevel - 1) + " ";
+            }
+            else {
+                insertStr += nextBulletStr() + " ";
+            }
             editor.edit(edit => {
-                edit.insert(bulletPos, "\n" + newLineIndent + nextBulletStr());
+                edit.insert(bulletPos, insertStr);
             });
         }
     }
@@ -169,6 +196,7 @@ function activate(context) {
             let endPos;
             let currentIndentLevel = getIndentLevel();
             let indentSize = getIndentSize();
+            let replaceStr = "";
             if (activePos.character <= (currentIndentLevel * indentSize + bulletLength + 1)) {
                 startPos = activePos.with(activePos.line, 0);
                 if (currentIndentLevel === 1) {
@@ -194,7 +222,7 @@ function activate(context) {
                 endPos = activePos.with(activePos.line, activePos.character);
             }
             editor.edit(edit => {
-                edit.delete(new vscode.Range(startPos, endPos));
+                edit.replace(new vscode.Range(startPos, endPos), "");
             });
         }
         else if (!isActive && editor) {

@@ -38,7 +38,7 @@
 			"properties": {
 				"customBulletPoints.BulletPointMode": {
 					"type": "string",
-					"default":"cycle",
+					"default":"tier",
 					"enum": ["tier", "cycle", "random"],
 					"description": "Choose the method that the string used for bulletpoints are selected",
 					"enumDescriptions": [
