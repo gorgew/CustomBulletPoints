@@ -30,7 +30,6 @@ export function activate(context: vscode.ExtensionContext) {
 	reloadBulletCollections();
 	activeBulletCollection = bulletCollections[0].bulletStringArray;
 
-	const editor = vscode.window.activeTextEditor;
 	
 	function reloadBulletCollections() {
 		bulletCollections = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointCollectionss")  
@@ -59,7 +58,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	//Returns -1 if using tabs, >= 1 when using spaces
 	function getIndentSize():number {
-
+		let editor = vscode.window.activeTextEditor;
 		let size:number = 0;
 
 		let isUsingSpaces:boolean = vscode.workspace.getConfiguration().get("editor.insertSpaces") ?? false;
@@ -75,7 +74,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	function getIndentLevel():number {
 		let indentCount:number = 0;
-
+		let editor = vscode.window.activeTextEditor;
 		if (editor) {
 
 			let indentString:string = getIndentString();
@@ -118,6 +117,7 @@ export function activate(context: vscode.ExtensionContext) {
 		return indentStr;
 	}
 	function nextBulletStr():string {
+		let editor = vscode.window.activeTextEditor;
 		let bulletStr = "";
 		if (editor) {
 
@@ -177,7 +177,7 @@ export function activate(context: vscode.ExtensionContext) {
 	};
 	
 	function doOnTabDown() {
-
+		let editor = vscode.window.activeTextEditor;
 		if (isActive && editor) {
 
 			const activePos = editor.selection.active;
@@ -190,14 +190,16 @@ export function activate(context: vscode.ExtensionContext) {
 				
 				if (currentIndentMode === IndentMode.tier) {
 
-				startPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()) + 1);
-				endPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()) + 2);
+				startPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()) );
+				endPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()) + bulletLength);
 				replaceStr = getIndentString() + nextBulletStr();
 				editor.edit(edit => {
 					edit.replace(new vscode.Range(startPos, endPos), replaceStr);
 				}).then(success => {
-					let endPos = editor.selection.end; 
-    				editor.selection = new vscode.Selection(endPos, endPos);
+					/*
+					let endPos = editor!.selection.end; 
+    				editor!.selection = new vscode.Selection(endPos, endPos);
+					*/
 				});
 
 				} else {
@@ -215,18 +217,18 @@ export function activate(context: vscode.ExtensionContext) {
 					edit.insert(startPos, getIndentString() + nextBulletStr() + " ");
 				});
 				justTabbed = true;
-			}
-			
-			
+			}	
 		} else if (!isActive){
-
-			activateCommand();
-			doOnTabDown();
+			//If tabbing when not active and at the beginning of the document
+			if (editor?.selection.active.character === 0) {
+				activateCommand();
+				doOnTabDown();
+			}
 		}
 	}
 
 	function doOnEnterDown() {
-
+		let editor = vscode.window.activeTextEditor;
 		if (isActive && editor && justTabbed) {
 			
 			let insertStr:string = "\n";
@@ -251,7 +253,7 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 	
 	function doOnBackspaceDown() {
-
+		let editor = vscode.window.activeTextEditor;
 		if (isActive && editor && justTabbed) {
 			
 			const activePos = editor.selection.active;
@@ -261,7 +263,7 @@ export function activate(context: vscode.ExtensionContext) {
 			let currentIndentLevel:number = getIndentLevel();
 			let indentSize:number = getIndentSize();
 			let replaceStr = "";
-			if (activePos.character <= (currentIndentLevel * indentSize + bulletLength + 1)) {
+			if (activePos.character <= (currentIndentLevel * indentSize + bulletLength + 2)) {
 				
 				startPos = activePos.with(activePos.line, 0);
 				
@@ -271,13 +273,13 @@ export function activate(context: vscode.ExtensionContext) {
 					deactivateCommand();
 				} else if (currentIndentLevel >= 0){
 
-					//If indenting with Tabs
-					if (indentSize === -1) {
-	
-						endPos = activePos.with(activePos.line, 1);
-					//Else indenting with spaces
+					if (currentIndentMode = IndentMode.tier) {
+						console.log(bulletLength);
+						startPos = activePos.with(activePos.line, activePos.character - bulletLength - Math.abs(indentSize) - 1);
+						endPos = activePos.with(activePos.line, activePos.character - 1);
+						replaceStr = tierNextBulletStr(getIndentLevel() - 2);
 					} else {
-						endPos = activePos.with(activePos.line, indentSize);
+						endPos = activePos.with(activePos.line, Math.abs(indentSize));
 					}
 
 				} else {
@@ -291,7 +293,7 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 
 			editor.edit(edit => {
-				edit.replace(new vscode.Range(startPos, endPos), "");
+				edit.replace(new vscode.Range(startPos, endPos), replaceStr);
 			});
 		}
 		else if (!isActive && editor) {

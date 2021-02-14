@@ -21,7 +21,6 @@ function activate(context) {
     currentIndentMode = (_a = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointMode")) !== null && _a !== void 0 ? _a : IndentMode.random;
     reloadBulletCollections();
     activeBulletCollection = bulletCollections[0].bulletStringArray;
-    const editor = vscode.window.activeTextEditor;
     function reloadBulletCollections() {
         var _a;
         bulletCollections = (_a = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointCollectionss")) !== null && _a !== void 0 ? _a : [{ label: "a", stringSize: 1, bulletStringArray: [""], detail: "" }];
@@ -48,6 +47,7 @@ function activate(context) {
     //Returns -1 if using tabs, >= 1 when using spaces
     function getIndentSize() {
         var _a, _b;
+        let editor = vscode.window.activeTextEditor;
         let size = 0;
         let isUsingSpaces = (_a = vscode.workspace.getConfiguration().get("editor.insertSpaces")) !== null && _a !== void 0 ? _a : false;
         if (isUsingSpaces) {
@@ -60,6 +60,7 @@ function activate(context) {
     }
     function getIndentLevel() {
         let indentCount = 0;
+        let editor = vscode.window.activeTextEditor;
         if (editor) {
             let indentString = getIndentString();
             let indentSize = getIndentSize();
@@ -91,6 +92,7 @@ function activate(context) {
         return indentStr;
     }
     function nextBulletStr() {
+        let editor = vscode.window.activeTextEditor;
         let bulletStr = "";
         if (editor) {
             const activePos = editor.selection.active;
@@ -131,6 +133,7 @@ function activate(context) {
         justTabbed = false;
     };
     function doOnTabDown() {
+        let editor = vscode.window.activeTextEditor;
         if (isActive && editor) {
             const activePos = editor.selection.active;
             let startPos;
@@ -138,14 +141,16 @@ function activate(context) {
             let replaceStr = "";
             if (justTabbed) {
                 if (currentIndentMode === IndentMode.tier) {
-                    startPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()) + 1);
-                    endPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()) + 2);
+                    startPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()));
+                    endPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()) + bulletLength);
                     replaceStr = getIndentString() + nextBulletStr();
                     editor.edit(edit => {
                         edit.replace(new vscode.Range(startPos, endPos), replaceStr);
                     }).then(success => {
-                        let endPos = editor.selection.end;
-                        editor.selection = new vscode.Selection(endPos, endPos);
+                        /*
+                        let endPos = editor!.selection.end;
+                        editor!.selection = new vscode.Selection(endPos, endPos);
+                        */
                     });
                 }
                 else {
@@ -164,11 +169,15 @@ function activate(context) {
             }
         }
         else if (!isActive) {
-            activateCommand();
-            doOnTabDown();
+            //If tabbing when not active and at the beginning of the document
+            if ((editor === null || editor === void 0 ? void 0 : editor.selection.active.character) === 0) {
+                activateCommand();
+                doOnTabDown();
+            }
         }
     }
     function doOnEnterDown() {
+        let editor = vscode.window.activeTextEditor;
         if (isActive && editor && justTabbed) {
             let insertStr = "\n";
             let currentIndentLevel = getIndentLevel();
@@ -190,6 +199,7 @@ function activate(context) {
         }
     }
     function doOnBackspaceDown() {
+        let editor = vscode.window.activeTextEditor;
         if (isActive && editor && justTabbed) {
             const activePos = editor.selection.active;
             let startPos;
@@ -197,20 +207,21 @@ function activate(context) {
             let currentIndentLevel = getIndentLevel();
             let indentSize = getIndentSize();
             let replaceStr = "";
-            if (activePos.character <= (currentIndentLevel * indentSize + bulletLength + 1)) {
+            if (activePos.character <= (currentIndentLevel * indentSize + bulletLength + 2)) {
                 startPos = activePos.with(activePos.line, 0);
                 if (currentIndentLevel === 1) {
                     endPos = activePos.with(activePos.line, indentSize + bulletLength + 1);
                     deactivateCommand();
                 }
                 else if (currentIndentLevel >= 0) {
-                    //If indenting with Tabs
-                    if (indentSize === -1) {
-                        endPos = activePos.with(activePos.line, 1);
-                        //Else indenting with spaces
+                    if (currentIndentMode = IndentMode.tier) {
+                        console.log(bulletLength);
+                        startPos = activePos.with(activePos.line, activePos.character - bulletLength - Math.abs(indentSize) - 1);
+                        endPos = activePos.with(activePos.line, activePos.character - 1);
+                        replaceStr = tierNextBulletStr(getIndentLevel() - 2);
                     }
                     else {
-                        endPos = activePos.with(activePos.line, indentSize);
+                        endPos = activePos.with(activePos.line, Math.abs(indentSize));
                     }
                 }
                 else {
@@ -222,7 +233,7 @@ function activate(context) {
                 endPos = activePos.with(activePos.line, activePos.character);
             }
             editor.edit(edit => {
-                edit.replace(new vscode.Range(startPos, endPos), "");
+                edit.replace(new vscode.Range(startPos, endPos), replaceStr);
             });
         }
         else if (!isActive && editor) {

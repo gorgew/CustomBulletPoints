@@ -52,6 +52,11 @@
 					"description": "A set of \"Bullet List\" object.",
 					"default": [
 						{
+							"label" : "abc",
+							"stringSize": 3,
+							"bulletStringArray": ["abc", "def"]
+						},
+						{
 							"label" : "Fruit 1",
 							"stringSize" : 1,
 							"bulletStringArray" : ["🍏", "🍎", "🍊", "🍐", "🍋"]
@@ -80,7 +85,7 @@
 						},
 						{
 							"label" : "Cards",
-							"stringSize" : 1,
+							"stringSize" : 2,
 							"bulletStringArray" : ["♠️", "♣️", "♥️", "♦️"]
 						},
 						{

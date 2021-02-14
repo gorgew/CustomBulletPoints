@@ -40,6 +40,7 @@ label: The name displayed when choosing a bullet point collection in the command
 stringSize: The size of the bullets in characters.
 bulletStringArray: An array of Strings used as bullets. They should be the same size, though this is not enforced.
 
+> Warning: Be careful with symbols that use Variation Selectors(https://en.wikipedia.org/wiki/Variation_Selectors_(Unicode_block)). Symbols that appear as 1 character may be in fact 2.
 ## Known Issues
 
 Problems with Tier Mode.
