@@ -1,6 +1,4 @@
-### TODO
-
-# Custom Bullet Points README
+# Custom Bullet Points
 
 Have you ever wanted to take notes in a text editor with fun, personalized bullet points? If not, this is still for you!
 
@@ -36,11 +34,11 @@ Collections of Bullet Points. Individual collections can be customized with the 
         "bulletStringArray: []"
     }
 ```
-label: The name displayed when choosing a bullet point collection in the command palette.
-stringSize: The size of the bullets in characters.
-bulletStringArray: An array of Strings used as bullets. They should be the same size, though this is not enforced.
+* label: The name displayed when choosing a bullet point collection in the command palette.
+* stringSize: The size of the bullets in characters.
+* bulletStringArray: An array of Strings used as bullets. They should be the same size, though this is not enforced.
 
-> Warning: Be careful with symbols that use Variation Selectors(https://en.wikipedia.org/wiki/Variation_Selectors_(Unicode_block)). Symbols that appear as 1 character may be in fact 2.
+> Warning: Be careful with symbols that use [Variation Selectors](https://en.wikipedia.org/wiki/Variation_Selectors_(Unicode_block)). Symbols that appear as 1 character may be in fact 2.
 ## Known Issues
 
 Problems with Tier Mode.
@@ -57,6 +55,4 @@ Initial release of Custom Bullet Points.
 * Fix Tier Mode
 * Default bullet collection
 * Rembering active bullet collection?
-* Markdown integration
-* Vim extension integration
-* LaTex integration
+* Integration with LaTex, Markdown, and Vim extensions
