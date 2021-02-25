@@ -16,157 +16,390 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "customBulletPoints.activate",
-				"title": "customBulletPoints: Activate"
+				"command": "customBulletPoints.activityQuickPick",
+				"title": "Custom Bullet Points: Activate / Deactivate"
 			},
 			{
-				"command": "customBulletPoints.deactivate",
-				"title": "customBulletPoints: Deactivate"
+				"command": "customBulletPoints.chooseModeQuickPick",
+				"title": "Custom Bullet Points: Choose Mode"
 			},
 			{
-				"command" : "customBulletPoints.chooseBulletPointCollections",
-				"title": "customBulletPoints: Choose Bullet Point Set"
+				"command": "customBulletPoints.chooseBulletPointCollections",
+				"title": "Custom Bullet Points: Choose Bullet Point Set"
 			},
 			{
-				"command" : "customBulletPoints.reloadBulletPointCollections",
-				"title": "customBulletPoints: Reload Bullet Point Sets and then Choose a new one"
+				"command": "customBulletPoints.reloadBulletPointCollections",
+				"title": "Custom Bullet Points: Reload Bullet Point Sets and then Choose a new one"
 			}
-			
-		], 
+		],
 		"configuration": {
 			"title": "customBulletPoints",
 			"properties": {
-				"customBulletPoints.BulletPointMode": {
+				"customBulletPoints.BulletDefaultMode": {
 					"type": "string",
-					"default":"tier",
-					"enum": ["tier", "cycle", "random"],
-					"description": "Choose the method that the string used for bulletpoints are selected",
+					"default": "random",
+					"enum": [
+						"tier",
+						"cycle",
+						"random"
+					],
+					"description": "Choose the default method of bulleting.",
 					"enumDescriptions": [
 						"The bulletpoint string is the same at each indentation level.",
 						"The bulletpoint string cycles through the set.",
 						"The bulletpoint string is randomly selected from the set."
 					]
 				},
-				"customBulletPoints.BulletPointCollectionss" : {
-					"type" : "array",
+				"customBulletPoints.BulletPointCollections": {
+					"type": "array",
 					"description": "A set of \"Bullet List\" object.",
 					"default": [
 						{
-							"label" : "abc",
-							"stringSize": 3,
-							"bulletStringArray": ["abc", "def"]
+							"label": "Circular",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"●",
+								"○"
+							]
 						},
 						{
-							"label" : "Fruit 1",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🍏", "🍎", "🍊", "🍐", "🍋"]
+							"label": "Diamond",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"◆",
+								"◇"
+							]
 						},
 						{
-							"label" : "Fruit 2",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🍓", "🍇", "🫐", "🍒"]
+							"label": "Numbered 1",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"⓪",
+								"①",
+								"②",
+								"③",
+								"④",
+								"⑤",
+								"⑥",
+								"⑦",
+								"⓼",
+								"⓽"
+							]
 						},
 						{
-							"label" : "Eyewear",
-							"stringSize" : 1,
-							"bulletStringArray" : ["👓", "🕶", "🥽"]
+							"label": "Numbered 2",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"⓿",
+								"❶",
+								"❷",
+								"❸",
+								"❹",
+								"❺",
+								"❻",
+								"❼",
+								"❽",
+								"❾"
+							]
 						},
 						{
-							"label" : "Zodiac",
-							"stringSize" : 1,
-							"bulletStringArray" : ["♈️", "♉️", "♊️", "♋️", "♌️", 
-												   "♍️", "♎️", "♏️", "♐️", "♑️",
-												   "♒️", "♓️"]
+							"label": "Cake",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🥳",
+								"🎉",
+								"🎂",
+								"🎈",
+								"🎊",
+								"🍰",
+								"🧁"
+							]
 						},
 						{
-							"label" : "Monke",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🐵", "🙈", "🙉", "🙊", "🐒"]
+							"label": "Fruit 1",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🍏",
+								"🍎",
+								"🍊",
+								"🍐",
+								"🍋"
+							]
 						},
 						{
-							"label" : "Cards",
-							"stringSize" : 2,
-							"bulletStringArray" : ["♠️", "♣️", "♥️", "♦️"]
+							"label": "Fruit 2",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🍓",
+								"🍇",
+								"🫐",
+								"🍒"
+							]
 						},
 						{
-							"label" : "Borger",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🍔", "🍟", "🌭", "🍕", "🌮", "🌯"]
+							"label": "Eyewear",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"👓",
+								"🕶",
+								"🥽"
+							]
 						},
 						{
-							"label" : "Cookie",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🍪"]
+							"label": "Zodiac",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"♈️",
+								"♉️",
+								"♊️",
+								"♋️",
+								"♌️",
+								"♍️",
+								"♎️",
+								"♏️",
+								"♐️",
+								"♑️",
+								"♒️",
+								"♓️"
+							]
 						},
 						{
-							"label" : "Crustaceans",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🐙", "🦑", "🦐", "🦞", "🦀"]
+							"label": "Monke",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🐵",
+								"🙈",
+								"🙉",
+								"🙊",
+								"🐒"
+							]
 						},
 						{
-							"label" : "Fish",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🐟", "🐠", "🐡", "🦈"]
+							"label": "Cards",
+							"stringSize": 2,
+							"bulletStringArray": [
+								"♠️",
+								"♣️",
+								"♥️",
+								"♦️"
+							]
 						},
 						{
-							"label" : "Cetaceans",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🐋", "🐳", "🐬"]
+							"label": "Borger",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🍔",
+								"🍟",
+								"🌭",
+								"🍕",
+								"🌮",
+								"🌯"
+							]
 						},
 						{
-							"label" : "Za Worudo",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🌎", "🌍", "🌏"]
+							"label": "Cookie",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🍪"
+							]
 						},
 						{
-							"label" : "Flowers",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🌸", "🌼", "🌻", "🌺", "🥀", 
-												   "🌷", "🌹", "💐"]
+							"label": "Crustaceans",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🐙",
+								"🦑",
+								"🦐",
+								"🦞",
+								"🦀"
+							]
 						},
 						{
-							"label" : "The Bag",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🧳", "💼", "👝", "👛", "👜"]
+							"label": "Fish",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🐟",
+								"🐠",
+								"🐡",
+								"🦈"
+							]
 						},
 						{
-							"label" : "Cat",
-							"stringSize" : 1,
-							"bulletStringArray" : ["😺", "😸", "😹", "😻", "😼", 
-												   "😽", "🙀", "😿", "😾"]
+							"label": "Cetaceans",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🐋",
+								"🐳",
+								"🐬"
+							]
 						},
 						{
-							"label" : "Drip",
-							"stringSize" : 1,
-							"bulletStringArray" : ["💦"]
+							"label": "Za Worudo",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🌎",
+								"🌍",
+								"🌏"
+							]
 						},
 						{
-							"label" : "Math",
-							"stringSize" : 1,
-							"bulletStringArray" : ["➕", "➖", "➗", "✖️"]
+							"label": "Flowers",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🌸",
+								"🌼",
+								"🌻",
+								"🌺",
+								"🥀",
+								"🌷",
+								"🌹",
+								"💐"
+							]
 						},
 						{
-							"label" : "Clock",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🕐", "🕑", "🕒", "🕓", "🕔", 
-												   "🕕", "🕖", "🕗", "🕘", "🕙", 
-												   "🕚", "🕛"]
+							"label": "The Bag",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🧳",
+								"💼",
+								"👝",
+								"👛",
+								"👜"
+							]
 						},
 						{
-							"label" : "Mail",
-							"stringSize" : 1,
-							"bulletStringArray" : ["📪", "📫", "📬", "📭"]
+							"label": "Cat",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"😺",
+								"😸",
+								"😹",
+								"😻",
+								"😼",
+								"😽",
+								"🙀",
+								"😿",
+								"😾"
+							]
 						},
 						{
-							"label" : "Disease",
-							"stringSize" : 1,
-							"bulletStringArray" : ["🤧", "🤮", "😷", "🤒", "🤢", 
-												   "🤕", "😵"]
+							"label": "Drip",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"💦"
+							]
 						},
 						{
-							"label" : "Fruit 3",
-							"stringSize" : 1,
-							"bulletStringArray" : []
+							"label": "Sparkle",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"✨"
+							]
+						},
+						{
+							"label": "Math",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"➕",
+								"➖",
+								"➗",
+								"✖️"
+							]
+						},
+						{
+							"label": "Clock",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🕐",
+								"🕑",
+								"🕒",
+								"🕓",
+								"🕔",
+								"🕕",
+								"🕖",
+								"🕗",
+								"🕘",
+								"🕙",
+								"🕚",
+								"🕛"
+							]
+						},
+						{
+							"label": "Mail",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"📪",
+								"📫",
+								"📬",
+								"📭"
+							]
+						},
+						{
+							"label": "Disease",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🤧",
+								"🤮",
+								"😷",
+								"🤒",
+								"🤢",
+								"🤕",
+								"😵"
+							]
+						},
+						{
+							"label": "Money",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"💵",
+								"💴",
+								"💶",
+								"💷"
+							]
+						},
+						{
+							"label": "Moon",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🌕",
+								"🌖",
+								"🌗",
+								"🌘",
+								"🌑",
+								"🌒",
+								"🌓",
+								"🌔"
+							]
+						},
+						{
+							"label": "Weather",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"☀️",
+								"🌤",
+								"⛅️",
+								"☁️",
+								"🌦",
+								"🌧",
+								"⛈",
+								"🌩",
+								"🌨"
+							]
+						},
+						{
+							"label": "Bird",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🐔",
+								"🐧",
+								"🐦",
+								"🐤"
+							]
+						},
+						{
+							"label": "Fruit 3",
+							"stringSize": 1,
+							"bulletStringArray": []
 						}
 					]
 				}
