@@ -28,12 +28,33 @@ export function activate(context: vscode.ExtensionContext) {
 	activityStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 0);
 	activityStatusBarItem.command = "customBulletPoints.activityQuickPick";
 	activateCommand();
-	currentBulletMode = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointMode") ?? BulletMode.random;
+	currentBulletMode = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointMode") 
+						?? BulletMode.random;
 
 	reloadBulletCollections();
 	activeBulletCollection = bulletCollections[0].bulletStringArray;
 
 	vscode.commands.executeCommand("setContext", "customBulletPoints:active", true);
+	
+	vscode.workspace.onDidChangeConfiguration(event => {
+		console.log("HI");
+		if(event.affectsConfiguration("customBulletPoints.BulletPointMode")) {
+			currentBulletMode = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointMode") 
+								?? BulletMode.tier;
+			console.log(currentBulletMode);
+		}
+	});
+
+	vscode.window.onDidChangeActiveTextEditor(editor => {
+		
+		if (!editor) {
+			activityStatusBarItem.hide();
+		} else if (editor.document.languageId !== 'plaintext') {
+			activityStatusBarItem.hide();
+		} else {
+			activityStatusBarItem.show();
+		}
+	});
 	
 	context.subscriptions.push(vscode.commands.registerCommand('customBulletPoints.activate', activateCommand),
 							   vscode.commands.registerCommand('customBulletPoints.deactivate', deactivateCommand),
@@ -62,7 +83,7 @@ const deactivateCommand = () => {
 
 	activityStatusBarItem.text = "Bulleting: Off";
 	activityStatusBarItem.show();
-
+	cycleIndex = 0;
 	isActive = false;
 	justTabbed = false;
 };
@@ -100,7 +121,7 @@ function chooseModeQuickPick() {
 
 function reloadBulletCollections() {
 	bulletCollections = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointCollections")  
-				  ?? [{label : "a", stringSize: 1, bulletStringArray : [""], detail : ""}];
+				 		 ?? [{label : "a", stringSize: 1, bulletStringArray : [""], detail : ""}];
 	bulletCollections = bulletCollections.map(bulletCollection => {
 		return {
 			label: bulletCollection.label,

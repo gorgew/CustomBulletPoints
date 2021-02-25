@@ -35,7 +35,7 @@
 		"configuration": {
 			"title": "customBulletPoints",
 			"properties": {
-				"customBulletPoints.BulletDefaultMode": {
+				"customBulletPoints.BulletPointMode": {
 					"type": "string",
 					"default": "random",
 					"enum": [
@@ -43,7 +43,7 @@
 						"cycle",
 						"random"
 					],
-					"description": "Choose the default method of bulleting.",
+					"description": "Choose the method of bulleting.",
 					"enumDescriptions": [
 						"The bulletpoint string is the same at each indentation level.",
 						"The bulletpoint string cycles through the set.",

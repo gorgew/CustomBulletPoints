@@ -26,6 +26,25 @@ function activate(context) {
     reloadBulletCollections();
     activeBulletCollection = bulletCollections[0].bulletStringArray;
     vscode.commands.executeCommand("setContext", "customBulletPoints:active", true);
+    vscode.workspace.onDidChangeConfiguration(event => {
+        var _a;
+        console.log("HI");
+        if (event.affectsConfiguration("customBulletPoints.BulletPointMode")) {
+            currentBulletMode = (_a = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointMode")) !== null && _a !== void 0 ? _a : BulletMode.tier;
+            console.log(currentBulletMode);
+        }
+    });
+    vscode.window.onDidChangeActiveTextEditor(editor => {
+        if (!editor) {
+            activityStatusBarItem.hide();
+        }
+        else if (editor.document.languageId !== 'plaintext') {
+            activityStatusBarItem.hide();
+        }
+        else {
+            activityStatusBarItem.show();
+        }
+    });
     context.subscriptions.push(vscode.commands.registerCommand('customBulletPoints.activate', activateCommand), vscode.commands.registerCommand('customBulletPoints.deactivate', deactivateCommand), vscode.commands.registerCommand('customBulletPoints.activityQuickPick', activityQuickPick), vscode.commands.registerCommand('customBulletPoints.chooseModeQuickPick', chooseModeQuickPick), vscode.commands.registerCommand('customBulletPoints.chooseBulletPointCollections', bulletQuickPick), vscode.commands.registerCommand('customBulletPoints.reloadBulletPointCollections', reloadBulletCollectionsQP), vscode.commands.registerCommand('customBulletPoints.doOnTabDown', doOnTabDown), vscode.commands.registerCommand('customBulletPoints.doOnEnterDown', doOnEnterDown), vscode.commands.registerCommand('customBulletPoints.doOnBackspaceDown', doOnBackspaceDown));
 }
 exports.activate = activate;
@@ -40,6 +59,7 @@ const deactivateCommand = () => {
     vscode.commands.executeCommand("setContext", "customBulletPoints:active", false);
     activityStatusBarItem.text = "Bulleting: Off";
     activityStatusBarItem.show();
+    cycleIndex = 0;
     isActive = false;
     justTabbed = false;
 };
