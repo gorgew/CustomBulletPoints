@@ -185,7 +185,7 @@
 							]
 						},
 						{
-							"label": "Borger",
+							"label": "Healthy Food",
 							"stringSize": 1,
 							"bulletStringArray": [
 								"🍔",
@@ -397,7 +397,43 @@
 							]
 						},
 						{
-							"label": "Fruit 3",
+							"label": "Book",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"📕",
+								"📗",
+								"📘",
+								"📙"
+							]
+						},
+						{
+							"label": "Oncoming Vehicles",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🚍",
+								"🚔",
+								"🚖",
+								"🚘"
+							]
+						},
+						{
+							"label": "Medals",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🥇",
+								"🥈",
+								"🥉"
+							]
+						},
+						{
+							"label": "zeke",
+							"stringSize": 1,
+							"bulletStringArray": [
+								"🦧"
+							]
+						},
+						{
+							"label": "Blank",
 							"stringSize": 1,
 							"bulletStringArray": []
 						}
