@@ -2,6 +2,10 @@
 
 Have you ever wanted to take notes in a text editor with fun, personalized bullet points? If not, this is still for you!
 
+## Requirements
+
+Only vscode >= 1.52.0 is supported.
+
 ## Features
 
 * Easy to use bulleting
@@ -10,21 +14,17 @@ Have you ever wanted to take notes in a text editor with fun, personalized bulle
   * Pressing `Enter` creates a bulleted newline
   * Pressing `Backspace` makes the bullet go back one indentation level. Backspacing at one indent exits bulleting.
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-Only vscode >= 1.52.0 is supported.
+>aaa
 
 ## Extension Settings
 
 #### Bullet Point Mode: The method in which bullets are chosen from a collection.
-* Tier Mode: Each indentation level receives a bullet from the collection. 
-* Cycle Mode: The bullet chosen cycles through the collecion, regardless of indentation level.
+* Tier Mode: The bullet point is chosen based on the indentation level.
+![Random Bullets](/images/tier.png)
+* Cycle Mode: The bullet points are chosen by cycling through the collecion, regardless of indentation level.
+![Random Bullets](/images/cycle.png)
 * Random Mode: The bullet is chosen randomly from the collection.
-
+![Random Bullets](/images/random.png)
 #### Bullet Point Collections: 
 Collections of Bullet Points. Individual collections can be customized with the following JSON object: format:
 ```
