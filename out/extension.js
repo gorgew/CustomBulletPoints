@@ -9,7 +9,7 @@ var BulletMode;
     BulletMode["cycle"] = "cycle";
 })(BulletMode || (BulletMode = {}));
 let currentBulletMode;
-let isActive = true;
+let isActive = false;
 let activityStatusBarItem;
 let bulletString;
 let bulletLength;
@@ -21,25 +21,29 @@ function activate(context) {
     var _a;
     activityStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 0);
     activityStatusBarItem.command = "customBulletPoints.activityQuickPick";
-    activateCommand();
+    //activateCommand();
     currentBulletMode = (_a = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointMode")) !== null && _a !== void 0 ? _a : BulletMode.random;
     reloadBulletCollections();
     activeBulletCollection = bulletCollections[0].bulletStringArray;
-    vscode.commands.executeCommand("setContext", "customBulletPoints:active", false);
+    deactivateCommand();
     vscode.workspace.onDidChangeConfiguration(event => {
         var _a;
-        console.log("HI");
         if (event.affectsConfiguration("customBulletPoints.BulletPointMode")) {
             currentBulletMode = (_a = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointMode")) !== null && _a !== void 0 ? _a : BulletMode.tier;
-            console.log(currentBulletMode);
         }
     });
     vscode.window.onDidChangeActiveTextEditor(editor => {
         if (!editor) {
             activityStatusBarItem.hide();
         }
+        else if (!isActive) {
+            activityStatusBarItem.hide();
+        }
         else if (editor.document.languageId !== 'plaintext') {
             activityStatusBarItem.hide();
+        }
+        else if (editor.document.languageId === 'plaintext') {
+            activityStatusBarItem.show();
         }
         else {
             activityStatusBarItem.show();
@@ -90,7 +94,6 @@ function chooseModeQuickPick() {
             currentBulletMode = BulletMode.random;
         }
     });
-    console.log(currentBulletMode);
 }
 function reloadBulletCollections() {
     var _a;
@@ -196,7 +199,6 @@ function doOnTabDown() {
         let replaceStr = "";
         if (justTabbed) {
             if (currentBulletMode === BulletMode.tier) {
-                console.log("Tiermode");
                 startPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()));
                 endPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()) + bulletLength);
                 replaceStr = getIndentString() + nextBulletStr();
@@ -232,6 +234,7 @@ function doOnTabDown() {
 }
 function doOnEnterDown() {
     let editor = vscode.window.activeTextEditor;
+    console.log("enter");
     if (isActive && editor && justTabbed) {
         let insertStr = "\n";
         let currentIndentLevel = getIndentLevel();
@@ -269,7 +272,6 @@ function doOnBackspaceDown() {
             }
             else if (currentIndentLevel >= 0) {
                 if (currentBulletMode === BulletMode.tier) {
-                    console.log(bulletLength);
                     startPos = activePos.with(activePos.line, activePos.character - bulletLength - Math.abs(indentSize) - 1);
                     endPos = activePos.with(activePos.line, activePos.character - 1);
                     replaceStr = tierNextBulletStr(getIndentLevel() - 2);
