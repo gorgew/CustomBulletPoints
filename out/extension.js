@@ -25,7 +25,7 @@ function activate(context) {
     currentBulletMode = (_a = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointMode")) !== null && _a !== void 0 ? _a : BulletMode.random;
     reloadBulletCollections();
     activeBulletCollection = bulletCollections[0].bulletStringArray;
-    vscode.commands.executeCommand("setContext", "customBulletPoints:active", true);
+    vscode.commands.executeCommand("setContext", "customBulletPoints:active", false);
     vscode.workspace.onDidChangeConfiguration(event => {
         var _a;
         console.log("HI");

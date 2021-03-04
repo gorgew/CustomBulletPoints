@@ -14,17 +14,17 @@ Only vscode >= 1.52.0 is supported.
   * Pressing `Enter` creates a bulleted newline
   * Pressing `Backspace` makes the bullet go back one indentation level. Backspacing at one indent exits bulleting.
 
->aaa
+>TODO <- add gif
 
 ## Extension Settings
 
 #### Bullet Point Mode: The method in which bullets are chosen from a collection.
 * Tier Mode: The bullet point is chosen based on the indentation level.
-![Random Bullets](/images/tier.png)
+![Tier Mode](https://github.com/gorgew/CustomBulletPoints/blob/CustomBulletPoints/images/tier.png)
 * Cycle Mode: The bullet points are chosen by cycling through the collecion, regardless of indentation level.
-![Random Bullets](/images/cycle.png)
+![Cycle Mode](https://github.com/gorgew/CustomBulletPoints/blob/CustomBulletPoints/images/cycle.png)
 * Random Mode: The bullet is chosen randomly from the collection.
-![Random Bullets](/images/random.png)
+![Random Mode](https://github.com/gorgew/CustomBulletPoints/blob/CustomBulletPoints/images/random.png)
 #### Bullet Point Collections: 
 Collections of Bullet Points. Individual collections can be customized with the following JSON object: format:
 ```
