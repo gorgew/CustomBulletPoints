@@ -27,7 +27,7 @@
 		"commands": [
 			{
 				"command": "customBulletPoints.activityQuickPick",
-				"title": "Custom Bullet Points: Activate / Deactivate"
+				"title": "Custom Bullet Points: Toggle Activation"
 			},
 			{
 				"command": "customBulletPoints.chooseModeQuickPick",
@@ -35,11 +35,11 @@
 			},
 			{
 				"command": "customBulletPoints.chooseBulletPointCollections",
-				"title": "Custom Bullet Points: Choose Bullet Point Set"
+				"title": "Custom Bullet Points: Choose Bullet Point Collection"
 			},
 			{
 				"command": "customBulletPoints.reloadBulletPointCollections",
-				"title": "Custom Bullet Points: Reload Bullet Point Sets and then Choose a new one"
+				"title": "Custom Bullet Points: Reload Collections"
 			}
 		],
 		"configuration": {

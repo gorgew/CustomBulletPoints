@@ -16,8 +16,6 @@ Only vscode >= 1.52.0 is supported.
 
 >TODO <- add gif
 
-## Extension Settings
-
 #### Bullet Point Mode: The method in which bullets are chosen from a collection.
 * Tier Mode: The bullet point is chosen based on the indentation level.
 ![Tier Mode](https://raw.githubusercontent.com/gorgew/CustomBulletPoints/CustomBulletPoints/images/tier.png)
@@ -25,8 +23,20 @@ Only vscode >= 1.52.0 is supported.
 ![Cycle Mode](https://raw.githubusercontent.com/gorgew/CustomBulletPoints/CustomBulletPoints/images/cycle.png)
 * Random Mode: The bullet is chosen randomly from the collection.
 ![Random Mode](https://raw.githubusercontent.com/gorgew/CustomBulletPoints/CustomBulletPoints/images/random.png)
+
+## Extension Commands
+
+Found in Command Palette (`Ctrl + shift + p `):
+* Custom Bullet Points: Choose Mode
+  * Choose the Bullet Mode
+* Custom Bullet Points: Choose Bullet Point Collection
+  * Choose the Bullet Point Collection
+* Custom Bullet Points: Toggle Activation
+  * Toggles whether bulleting is on or off
+* Custom Bullet Points: Reload Collections
+  * Reload the collections. Used when editing bullet point collections on the fly.
 #### Bullet Point Collections: 
-Collections of Bullet Points. Individual collections can be customized with the following JSON object: format:
+Collections of Bullet Points. Can edit in settions.json. Individual collections can be customized with the following JSON object: format:
 ```
     {
         "label": ,
