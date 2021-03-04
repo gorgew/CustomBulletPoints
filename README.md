@@ -20,11 +20,11 @@ Only vscode >= 1.52.0 is supported.
 
 #### Bullet Point Mode: The method in which bullets are chosen from a collection.
 * Tier Mode: The bullet point is chosen based on the indentation level.
-![Tier Mode](/images/tier.png)
+![Tier Mode](https://raw.githubusercontent.com/gorgew/CustomBulletPoints/CustomBulletPoints/images/tier.png)
 * Cycle Mode: The bullet points are chosen by cycling through the collecion, regardless of indentation level.
-![Cycle Mode](/images/cycle.png)
+![Cycle Mode](https://raw.githubusercontent.com/gorgew/CustomBulletPoints/CustomBulletPoints/images/cycle.png)
 * Random Mode: The bullet is chosen randomly from the collection.
-![Random Mode](/images/random.png)
+![Random Mode](https://raw.githubusercontent.com/gorgew/CustomBulletPoints/CustomBulletPoints/images/random.png)
 #### Bullet Point Collections: 
 Collections of Bullet Points. Individual collections can be customized with the following JSON object: format:
 ```
