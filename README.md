@@ -62,6 +62,9 @@ Initial release of Custom Bullet Points.
 
 -----------------------------------------------------------------------------------------------------------
 ## TODO
+* Add gif
+* Downsize images
+* Refactor terrible code
 * Fix Tier Mode
 * Default bullet collection
 * Rembering active bullet collection?

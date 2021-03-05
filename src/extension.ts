@@ -283,11 +283,17 @@ function doOnTabDown() {
 			});
 			justTabbed = true;
 		}
-	} else if (!isActive) {
+	} else if (!isActive && editor) {
 		//If tabbing when not active and at the beginning of the document
 		if (editor?.selection.active.character === 0) {
 			activateCommand();
 			doOnTabDown();
+		} else {
+			const activePos = editor.selection.active;
+			let startPos = activePos.with(activePos.line, activePos.character + 1);
+			editor.edit(edit => {
+				edit.insert(startPos, getIndentString());
+			});
 		}
 	}
 }
