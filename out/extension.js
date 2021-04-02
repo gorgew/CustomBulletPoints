@@ -11,7 +11,6 @@ var BulletMode;
 let currentBulletMode;
 let isActive = false;
 let activityStatusBarItem;
-let bulletString;
 let bulletLength;
 let bulletCollections;
 let activeBulletCollection;
@@ -19,9 +18,8 @@ let justTabbed = false;
 let cycleIndex = 0;
 function activate(context) {
     var _a;
-    activityStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 0);
+    activityStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 5);
     activityStatusBarItem.command = "customBulletPoints.activityQuickPick";
-    //activateCommand();
     currentBulletMode = (_a = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointMode")) !== null && _a !== void 0 ? _a : BulletMode.random;
     reloadBulletCollections();
     activeBulletCollection = bulletCollections[0].bulletStringArray;
@@ -97,7 +95,8 @@ function chooseModeQuickPick() {
 }
 function reloadBulletCollections() {
     var _a;
-    bulletCollections = (_a = vscode.workspace.getConfiguration().get("customBulletPoints.BulletPointCollections")) !== null && _a !== void 0 ? _a : [{ label: "a", stringSize: 1, bulletStringArray: [""], detail: "" }];
+    bulletCollections = (_a = vscode.workspace.getConfiguration().
+        get("customBulletPoints.BulletPointCollections")) !== null && _a !== void 0 ? _a : [{ label: "a", stringSize: 1, bulletStringArray: [""], detail: "" }];
     bulletCollections = bulletCollections.map(bulletCollection => {
         return {
             label: bulletCollection.label,
@@ -200,7 +199,8 @@ function doOnTabDown() {
         if (justTabbed) {
             if (currentBulletMode === BulletMode.tier) {
                 startPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()));
-                endPos = activePos.with(activePos.line, getIndentLevel() * Math.abs(getIndentSize()) + bulletLength);
+                endPos = activePos.with(activePos.line, getIndentLevel() *
+                    Math.abs(getIndentSize()) + bulletLength);
                 replaceStr = getIndentString() + nextBulletStr();
                 editor.edit(edit => {
                     edit.replace(new vscode.Range(startPos, endPos), replaceStr);
@@ -266,38 +266,52 @@ function doOnBackspaceDown() {
     let editor = vscode.window.activeTextEditor;
     if (isActive && editor && justTabbed) {
         const activePos = editor.selection.active;
+        const selectionStart = editor.selection.start;
+        const selectionEnd = editor.selection.end;
+        console.log(selectionStart);
+        console.log(selectionEnd);
         let startPos;
         let endPos;
         let currentIndentLevel = getIndentLevel();
         let indentSize = getIndentSize();
         let replaceStr = "";
-        if (activePos.character <= (currentIndentLevel * indentSize + bulletLength + 1)) {
-            startPos = activePos.with(activePos.line, 0);
-            if (currentIndentLevel === 1) {
-                endPos = activePos.with(activePos.line, indentSize + bulletLength + 1);
-                deactivateCommand();
-            }
-            else if (currentIndentLevel >= 0) {
-                if (currentBulletMode === BulletMode.tier) {
-                    startPos = activePos.with(activePos.line, activePos.character - bulletLength - Math.abs(indentSize) - 1);
-                    endPos = activePos.with(activePos.line, activePos.character - 1);
-                    replaceStr = tierNextBulletStr(getIndentLevel() - 2);
+        if (selectionStart.line === selectionEnd.line &&
+            selectionStart.character === selectionEnd.character) {
+            console.log('start same as end');
+            if (activePos.character <= (currentIndentLevel * indentSize + bulletLength + 1)) {
+                if (currentIndentLevel === 1) {
+                    startPos = activePos.with(activePos.line, 0);
+                    endPos = activePos.with(activePos.line, indentSize + bulletLength + 1);
+                    deactivateCommand();
                 }
-                else {
-                    endPos = activePos.with(activePos.line, Math.abs(indentSize));
+                else if (currentIndentLevel >= 0) {
+                    if (currentBulletMode === BulletMode.tier) {
+                        startPos = activePos.with(activePos.line, activePos.character
+                            - bulletLength - Math.abs(indentSize) - 1);
+                        endPos = activePos.with(activePos.line, activePos.character - 1);
+                        replaceStr = tierNextBulletStr(getIndentLevel() - 2);
+                    }
+                    else {
+                        endPos = activePos.with(activePos.line, Math.abs(indentSize));
+                    }
                 }
             }
             else {
+                startPos = activePos.with(activePos.line, activePos.character - 1);
+                endPos = activePos.with(activePos.line, activePos.character);
+            }
+            editor.edit(edit => {
+                edit.replace(new vscode.Range(startPos, endPos), replaceStr);
+            });
+        }
+        else {
+            editor.edit(edit => {
+                edit.replace(new vscode.Range(selectionStart, selectionEnd), "");
+            });
+            if (selectionStart.character <= currentIndentLevel * indentSize + bulletLength + 1) {
                 deactivateCommand();
             }
         }
-        else {
-            startPos = activePos.with(activePos.line, activePos.character - 1);
-            endPos = activePos.with(activePos.line, activePos.character);
-        }
-        editor.edit(edit => {
-            edit.replace(new vscode.Range(startPos, endPos), replaceStr);
-        });
     }
     else if (!isActive && editor) {
         const activePos = editor.selection.active;

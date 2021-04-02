@@ -65,7 +65,6 @@ Initial release of Custom Bullet Points.
 * Add gif
 * Downsize images
 * Refactor terrible code
-* Fix Tier Mode
 * Default bullet collection
 * Rembering active bullet collection?
 * Integration with LaTex, Markdown, and Vim extensions
