@@ -264,20 +264,17 @@ function doOnEnterDown() {
 }
 function doOnBackspaceDown() {
     let editor = vscode.window.activeTextEditor;
+    const activePos = editor.selection.active;
+    const selectionStart = editor.selection.start;
+    const selectionEnd = editor.selection.end;
+    let startPos;
+    let endPos;
+    let replaceStr = "";
     if (isActive && editor && justTabbed) {
-        const activePos = editor.selection.active;
-        const selectionStart = editor.selection.start;
-        const selectionEnd = editor.selection.end;
-        console.log(selectionStart);
-        console.log(selectionEnd);
-        let startPos;
-        let endPos;
         let currentIndentLevel = getIndentLevel();
         let indentSize = getIndentSize();
-        let replaceStr = "";
         if (selectionStart.line === selectionEnd.line &&
             selectionStart.character === selectionEnd.character) {
-            console.log('start same as end');
             if (activePos.character <= (currentIndentLevel * indentSize + bulletLength + 1)) {
                 if (currentIndentLevel === 1) {
                     startPos = activePos.with(activePos.line, 0);
@@ -300,25 +297,32 @@ function doOnBackspaceDown() {
                 startPos = activePos.with(activePos.line, activePos.character - 1);
                 endPos = activePos.with(activePos.line, activePos.character);
             }
-            editor.edit(edit => {
-                edit.replace(new vscode.Range(startPos, endPos), replaceStr);
-            });
         }
         else {
-            editor.edit(edit => {
-                edit.replace(new vscode.Range(selectionStart, selectionEnd), "");
-            });
+            startPos = selectionStart;
+            endPos = selectionEnd;
+            replaceStr = "";
             if (selectionStart.character <= currentIndentLevel * indentSize + bulletLength + 1) {
                 deactivateCommand();
             }
         }
     }
     else if (!isActive && editor) {
-        const activePos = editor.selection.active;
-        editor.edit(edit => {
-            edit.insert(activePos, '\b');
-        });
+        if (selectionStart.line === selectionEnd.line &&
+            selectionStart.character === selectionEnd.character) {
+            startPos = selectionStart;
+            endPos = selectionEnd.with(selectionEnd.line, selectionEnd.character + 1);
+            replaceStr = "\b";
+        }
+        else {
+            startPos = selectionStart;
+            endPos = selectionEnd;
+            replaceStr = "";
+        }
     }
+    editor.edit(edit => {
+        edit.replace(new vscode.Range(startPos, endPos), replaceStr);
+    });
 }
 // this method is called when your extension is deactivated
 function deactivate() { }
