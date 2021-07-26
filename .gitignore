@@ -1,4 +1,6 @@
-node_modules
-.vscodeignore
 .vscode
-out
+node_modules
+out/
+src/
+tsconfig.json
+webpack.config.js
