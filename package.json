@@ -3,7 +3,7 @@
 	"displayName": "Custom Bullet Points",
 	"publisher": "George-Wang",
 	"description": "An extension that adds customizable bullet points to plain textfiles.",
-	"version": "0.6.1",
+	"version": "0.7.1",
 	"author": {
 		"name": "George Wang"
 	},
@@ -496,6 +496,7 @@
 		"vscode-test": "^1.5.2"
 	},
 	"dependencies": {
+		"css-what": "^5.0.1",
 		"vsce": "^1.87.1"
 	}
 }

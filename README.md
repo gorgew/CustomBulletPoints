@@ -1,10 +1,6 @@
 # Custom Bullet Points
 
-Have you ever wanted to take notes in a text editor with fun, personalized bullet points? If not, this is still for you!
-
-## Requirements
-
-Only vscode >= 1.52.0 is supported.
+Adds fun, customizable bullet points to VSCode. By deafult only enabled for plain text files.
 
 ## Features
 
@@ -49,22 +45,3 @@ Collections of Bullet Points. Can edit in settions.json. Individual collections 
 * bulletStringArray: An array of Strings used as bullets. They should be the same size, though this is not enforced.
 
 > Warning: Be careful with symbols that use [Variation Selectors](https://en.wikipedia.org/wiki/Variation_Selectors_(Unicode_block)). Symbols that appear as 1 character may be in fact 2.
-## Known Issues
-
-Problems with Tier Mode.
-Weird stuff might happen if you undo exiting active bulleting with backspace.
-
-## Release Notes
-
-### 0.1.0
-
-Initial release of Custom Bullet Points.
-
------------------------------------------------------------------------------------------------------------
-## TODO
-* Add gif
-* Downsize images
-* Refactor terrible code
-* Default bullet collection
-* Rembering active bullet collection?
-* Integration with LaTex, Markdown, and Vim extensions

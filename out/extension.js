@@ -246,16 +246,21 @@ function doOnEnterDown() {
         let insertStr = "\n";
         let currentIndentLevel = getIndentLevel();
         let currentIndentStr = getIndentString();
-        for (let i = 0; i < currentIndentLevel; i++) {
-            insertStr += currentIndentStr;
-        }
         const activePos = editor.selection.active;
-        const bulletPos = activePos.with(activePos.line, activePos.character + 1);
-        if (currentBulletMode === BulletMode.tier) {
-            insertStr += tierNextBulletStr(currentIndentLevel - 1) + " ";
+        const bulletPos = activePos.with(activePos.line, activePos.character);
+        if (currentIndentLevel !== 0) {
+            for (let i = 0; i < currentIndentLevel; i++) {
+                insertStr += currentIndentStr;
+            }
+            if (currentBulletMode === BulletMode.tier) {
+                insertStr += tierNextBulletStr(currentIndentLevel - 1) + " ";
+            }
+            else {
+                insertStr += nextBulletStr() + " ";
+            }
         }
         else {
-            insertStr += nextBulletStr() + " ";
+            justTabbed = false;
         }
         editor.edit(edit => {
             edit.insert(bulletPos, insertStr);
